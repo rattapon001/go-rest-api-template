@@ -11,7 +11,7 @@ func Setup() *gin.Engine {
 
 	v1 := r.Group("api/v1")
 	{
-		v1.POST("/add-bacth", handlers.AddBacth)
+		v1.POST("/add-batch", handlers.AddBatch)
 		v1.POST("/allocate", handlers.Allocate)
 	}
 	return r
