@@ -18,7 +18,7 @@ func NewBatchService(r repository.BatchRepository) *batchUseCase {
 	return &batchUseCase{repository: r}
 }
 
-func (u batchUseCase) AddBatch(batchInput *dto.AddBatchInput) (*entity.Batches, error) {
+func (u *batchUseCase) AddBatch(batchInput *dto.AddBatchInput) (*entity.Batches, error) {
 	batch := entity.Batches{}
 	batch.Sku = batchInput.Sku
 	batch.Qty = batchInput.Qty

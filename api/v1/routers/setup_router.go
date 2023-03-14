@@ -1,30 +1,27 @@
 package routers
 
 import (
-	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/rattapon001/go-rest-api-template/api/v1/handlers"
-	"github.com/rattapon001/go-rest-api-template/internal/db"
 	"github.com/rattapon001/go-rest-api-template/internal/repository"
 	"github.com/rattapon001/go-rest-api-template/internal/usecase"
-	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func Setup(r *gin.Engine) *gin.Engine {
+func Setup(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
-	dsn := os.Getenv("DATA_BASE")
-
-	dbSession := db.ConnectDatabase(postgres.Open(dsn))
-
-	batchRepo := repository.NewBatchRepository(dbSession)
+	batchRepo := repository.NewBatchRepository(db)
 	batchUseCase := usecase.NewBatchService(batchRepo)
 	batchHandler := handlers.NewBatchHandler(batchUseCase)
+
+	allocateRepo := repository.NewAllocateRepository(db)
+	allocateUseCase := usecase.NewAllocateUseCase(allocateRepo)
+	allocateHandler := handlers.NewAllocateHandler(allocateUseCase)
 
 	v1 := r.Group("api/v1")
 	{
 		v1.POST("/add-batch", batchHandler.AddBatch)
-		v1.POST("/allocate", handlers.Allocate)
+		v1.POST("/allocate", allocateHandler.AllocateCreate)
 	}
 	return r
 }

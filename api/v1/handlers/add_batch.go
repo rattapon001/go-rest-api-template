@@ -17,7 +17,7 @@ func NewBatchHandler(usecase usecase.BatchUseCase) *batchHandler {
 	return &batchHandler{batchUseCase: usecase}
 }
 
-func (h batchHandler) AddBatch(c *gin.Context) {
+func (h *batchHandler) AddBatch(c *gin.Context) {
 
 	batch := dto.AddBatchInput{}
 	if err := c.ShouldBindJSON(&batch); err != nil {

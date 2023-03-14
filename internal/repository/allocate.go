@@ -1,15 +1,14 @@
 package repository
 
 import (
-	"log"
-
 	entities "github.com/rattapon001/go-rest-api-template/internal/db/entity"
 	"gorm.io/gorm"
 )
 
 type AllocateRepository interface {
-	Find() []entities.Batches
-	Save(b *entities.Batches) error
+	Find() []entities.Allocate
+	Save(b *entities.Allocate) error
+	GetAllocateDB() *gorm.DB
 }
 
 type allocateRepository struct {
@@ -27,7 +26,10 @@ func (r *allocateRepository) Find() []entities.Allocate {
 }
 
 func (r *allocateRepository) Save(al *entities.Allocate) error {
-	log.Println(*al)
 	err := r.DB.Save(&al).Error
 	return err
+}
+
+func (r *allocateRepository) GetAllocateDB() *gorm.DB {
+	return r.DB
 }
