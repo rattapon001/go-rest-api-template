@@ -10,6 +10,7 @@ import (
 type BatchRepository interface {
 	Find() []entity.Batches
 	Save(b *entity.Batches) error
+	FindForAllocate(b *[]entity.Batches, qty int, sku string) error
 }
 
 type batchRepository struct {
@@ -29,5 +30,10 @@ func (r *batchRepository) Find() []entity.Batches {
 func (r *batchRepository) Save(b *entity.Batches) error {
 	log.Println(*b)
 	err := r.DB.Save(&b).Error
+	return err
+}
+
+func (r *batchRepository) FindForAllocate(b *[]entity.Batches, qty int, sku string) error {
+	err := r.DB.Where("qty >= ? and sku = ?", qty, sku).Find(&b).Error
 	return err
 }
