@@ -26,5 +26,5 @@ func (h *batchHandler) AddBatch(c *gin.Context) {
 	}
 	h.batchUseCase.AddBatch(&batch)
 	log.Println(batch)
-	c.JSON(200, nil)
+	c.JSON(http.StatusOK, nil)
 }

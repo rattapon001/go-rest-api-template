@@ -16,20 +16,37 @@ type allocateUseCase struct {
 	repository repository.AllocateRepository
 }
 
+type Test struct {
+	Qty int
+}
+
 func NewAllocateUseCase(r repository.AllocateRepository) *allocateUseCase {
 	return &allocateUseCase{repository: r}
 }
 
 func (u *allocateUseCase) AllocateCreate(allocateInput *dto.AllocateInput) (*entity.Allocate, error) {
 	log.Println(allocateInput)
-
+	var err error = nil
 	batchRepo := repository.NewBatchRepository(u.repository.GetAllocateDB())
-	batch := batchRepo.Find()
-	log.Println(batch)
+	batches := []entity.Batches{}
+	batchRepo.FindForAllocate(&batches, allocateInput.Qty, allocateInput.Sku)
+	log.Println(batches)
 	allocate := entity.Allocate{}
-	allocate.Sku = "sdsad"
-	allocate.Qty = 1
-	allocate.OrderLine = "dsafsad"
-	err := u.repository.Save(&allocate)
+	if len(batches) > 0 {
+		batch := batches[0]
+		batch.Qty = batch.Qty - allocateInput.Qty
+		allocate.Sku = allocateInput.Sku
+		allocate.Qty = allocateInput.Qty
+		allocate.OrderLine = allocateInput.OrderLine
+		err = u.repository.Save(&allocate)
+		if err != nil {
+			log.Println(err)
+		}
+		err = batchRepo.Save(&batch)
+		if err != nil {
+			log.Println(err)
+		}
+
+	}
 	return &allocate, err
 }

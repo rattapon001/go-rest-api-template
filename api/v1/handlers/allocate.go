@@ -23,5 +23,5 @@ func (h *allocateHandler) AllocateCreate(c *gin.Context) {
 		return
 	}
 	h.allocateUseCase.AllocateCreate(&allocateInput)
-	c.JSON(200, nil)
+	c.JSON(http.StatusOK, nil)
 }

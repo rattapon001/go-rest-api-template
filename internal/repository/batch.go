@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"log"
-
 	"github.com/rattapon001/go-rest-api-template/internal/db/entity"
 	"gorm.io/gorm"
 )
@@ -28,12 +26,12 @@ func (r *batchRepository) Find() []entity.Batches {
 }
 
 func (r *batchRepository) Save(b *entity.Batches) error {
-	log.Println(*b)
-	err := r.DB.Save(&b).Error
-	return err
+	return r.DB.Save(&b).Error
+}
+func (r *batchRepository) FindForAllocate(b *[]entity.Batches, qty int, sku string) error {
+	return r.DB.Where("qty >= ? and sku = ?", qty, sku).Order("qty asc").Find(&b).Error
 }
 
-func (r *batchRepository) FindForAllocate(b *[]entity.Batches, qty int, sku string) error {
-	err := r.DB.Where("qty >= ? and sku = ?", qty, sku).Find(&b).Error
-	return err
+func (r *batchRepository) UpdateQty(qty int) error {
+	return r.DB.Model(&entity.Batches{}).Update("qty", qty).Error
 }
