@@ -1,6 +1,6 @@
-package entities
+package entity
 
-type Batch struct {
+type Batches struct {
 	Id  uint   `gorm:"primary_key;autoIncrement" json:"id"`
 	Sku string `json:"sku"`
 	Ref string `json:"ref"`
@@ -8,10 +8,10 @@ type Batch struct {
 	Eta string `json:"eta"`
 }
 
-type Tabler interface {
-	TableName() string
-}
+// type Tabler interface {
+// 	TableName() string
+// }
 
-func (Batch) TableName() string {
-	return "batch"
-}
+// func (Batch) TableName() string {
+// 	return "batch"
+// }

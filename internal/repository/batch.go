@@ -3,13 +3,13 @@ package repository
 import (
 	"log"
 
-	"github.com/rattapon001/go-rest-api-template/internal/db/entities"
+	"github.com/rattapon001/go-rest-api-template/internal/db/entity"
 	"gorm.io/gorm"
 )
 
 type BatchRepository interface {
-	Find() []entities.Batch
-	Save(b *entities.Batch) error
+	Find() []entity.Batches
+	Save(b *entity.Batches) error
 }
 
 type batchRepository struct {
@@ -20,13 +20,13 @@ func NewBatchRepository(DB *gorm.DB) *batchRepository {
 	return &batchRepository{DB: DB}
 }
 
-func (r *batchRepository) Find() []entities.Batch {
-	batch := []entities.Batch{}
+func (r *batchRepository) Find() []entity.Batches {
+	batch := []entity.Batches{}
 	r.DB.Find(&batch)
 	return batch
 }
 
-func (r *batchRepository) Save(b *entities.Batch) error {
+func (r *batchRepository) Save(b *entity.Batches) error {
 	log.Println(*b)
 	err := r.DB.Save(&b).Error
 	return err

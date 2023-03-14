@@ -18,7 +18,7 @@ func Setup(r *gin.Engine) *gin.Engine {
 	dbSession := db.ConnectDatabase(postgres.Open(dsn))
 
 	batchRepo := repository.NewBatchRepository(dbSession)
-	batchUseCase := usecase.NewServiceCreate(batchRepo)
+	batchUseCase := usecase.NewBatchService(batchRepo)
 	batchHandler := handlers.NewBatchHandler(batchUseCase)
 
 	v1 := r.Group("api/v1")

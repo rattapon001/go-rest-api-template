@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS batch(
+CREATE TABLE IF NOT EXISTS batches(
     id serial PRIMARY KEY,
     sku VARCHAR,
     ref VARCHAR,
