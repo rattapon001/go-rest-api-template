@@ -11,7 +11,7 @@ import (
 	"gorm.io/driver/postgres"
 )
 
-func Setup() *gin.Engine {
+func Setup(r *gin.Engine) *gin.Engine {
 
 	dsn := os.Getenv("DATA_BASE")
 
@@ -20,9 +20,6 @@ func Setup() *gin.Engine {
 	batchRepo := repository.NewBatchRepository(dbSession)
 	batchUseCase := usecase.NewServiceCreate(batchRepo)
 	batchHandler := handlers.NewBatchHandler(batchUseCase)
-
-	r := gin.Default()
-	r.GET("/ping")
 
 	v1 := r.Group("api/v1")
 	{
