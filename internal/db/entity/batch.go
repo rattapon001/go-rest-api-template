@@ -7,11 +7,3 @@ type Batches struct {
 	Qty int    `json:"qty"`
 	Eta string `json:"eta"`
 }
-
-// type Tabler interface {
-// 	TableName() string
-// }
-
-// func (Batch) TableName() string {
-// 	return "batch"
-// }
